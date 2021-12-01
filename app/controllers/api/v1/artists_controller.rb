@@ -10,4 +10,4 @@ module Api
 end 
     end
 end
-RSpotify.authenticate("c83a2169162f401fbba2a4bd88d55ac6", "d5e10e45717149a59a0029c4558c8475")
+
