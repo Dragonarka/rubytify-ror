@@ -126,6 +126,8 @@ update: For VScode users: you can change CRLF to LF by clicking on CRLF present 
 # Models
 
 rails generate model
+rails generate controller artists
+
 artist:  rails generate model artist name:string image:text g
 enres:integer popularity:integer spotify_url:text spot
 ify_id:string
@@ -156,6 +158,11 @@ t  - preview_url(30 second audio)
 i  - duration_ms
 b  - explicit
 s  - spotify_id
+
+
+to test locally:
+export DATABASE_CLEANER_ALLOW_PRODUCTION=true
+export DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
 
 
 
