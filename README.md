@@ -106,6 +106,9 @@ TEST
 
 bundle exec rspec
 
+MIGRATIONS
+rails db:migrate
+
 # License
 
 This is free software, and may be redistributed under the terms specified in the MIT License
@@ -123,7 +126,10 @@ update: For VScode users: you can change CRLF to LF by clicking on CRLF present 
 # Models
 
 rails generate model
-artist
+artist:  rails generate model artist name:string image:text g
+enres:integer popularity:integer spotify_url:text spot
+ify_id:string
+
 album
 song
 gender
