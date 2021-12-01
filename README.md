@@ -98,9 +98,13 @@ export DATABASE_URL=postgres://yg.......
 
 HEROKU
 
+
 heroku container:push web
 heroku container:release web
 
+TEST
+
+bundle exec rspec
 
 # License
 
@@ -115,6 +119,37 @@ In entrypoint docker ->docker-entrypoint.sh
 Use notepad++, go to edit -> EOL conversion -> change from CRLF to LF.
 
 update: For VScode users: you can change CRLF to LF by clicking on CRLF present on lower right side in the status bar
+
+# Models
+
+rails generate model
+artist
+album
+song
+gender
+
+Fields you need to fetch for artists:
+string - name
+text  - image(Any image of the artist)
+fk  - genres(You must record all of them)
+int  - popularity
+text  - spotify_url
+string  - spotify_id
+
+Fields you need to fetch for albums:
+s  - name
+t  - image(Any image of the album)
+t - spotify_url
+i - total_tracks
+s  - spotify_id
+
+Fields you need to fetch for songs:
+s  - name
+t  - spotify_url
+t  - preview_url(30 second audio)
+i  - duration_ms
+b  - explicit
+s  - spotify_id
 
 
 
