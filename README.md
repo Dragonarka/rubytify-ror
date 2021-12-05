@@ -128,13 +128,11 @@ update: For VScode users: you can change CRLF to LF by clicking on CRLF present 
 rails generate model
 rails generate controller artists
 
-artist:  rails generate model artist name:string image:text g
-enres:integer popularity:integer spotify_url:text spot
-ify_id:string
+artist:  rails generate model artist name:string image:text popularity:integer spotify_url:text spotify_id:string
 
-album
-song
-gender
+album: rails generate model album name:string image:text spotify_url:text total_tracks:integer spotify_id:string  
+song: rails generate model song name:string spotify_url:text preview_url:text duration_ms:integer explicit:boolean spotify_id:string
+genr:y rails generate model genre name:string 
 
 Fields you need to fetch for artists:
 string - name
@@ -160,9 +158,13 @@ b  - explicit
 s  - spotify_id
 
 
-to test locally:
+to run rspec test locally:
 export DATABASE_CLEANER_ALLOW_PRODUCTION=true
 export DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
 
+
+rake Run
+
+bundle exec rake artists
 
 

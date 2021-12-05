@@ -1,11 +1,10 @@
-class CreateArtists < ActiveRecord::Migration[5.2]
+class CreateAlbums < ActiveRecord::Migration[5.2]
   def change
-    create_table :artists do |t|
+    create_table :albums do |t|
       t.string :name
       t.text :image
-      t.integer :genres
-      t.integer :popularity
       t.text :spotify_url
+      t.integer :total_tracks
       t.string :spotify_id
 
       t.timestamps

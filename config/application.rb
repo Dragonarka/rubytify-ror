@@ -13,6 +13,12 @@ require "action_cable/engine"
 # require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
+## add spotify auth
+require 'rspotify'
+
+#RSpotify::authenticate(ENV["SPOTIFY_CLIENT_ID"], ENV["SPOTIFY_CLIENT_ID"])
+RSpotify.authenticate("c83a2169162f401fbba2a4bd88d55ac6", "d5e10e45717149a59a0029c4558c8475")
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
