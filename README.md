@@ -179,3 +179,8 @@ heroku pg:reset ENV[database_url]
 to add columns
 rails generate migration add_album_to_songs album:references
 
+rails g migration change_data_type_for_genre_to_json :artist, :genre, :json
+
+
+Rescue request with retry https://stackify.com/rescue-exceptions-ruby/
+
