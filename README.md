@@ -166,7 +166,10 @@ export DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
 
 rake Run
 
-bundle exec rake artists
+bundle exec rake artists DEPRECATED
+nOW 
+rake artists_import:artists 
+
 
 
 TO RESET DATABASE
