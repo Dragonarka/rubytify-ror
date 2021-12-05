@@ -1,20 +1,18 @@
 class SeedsSpotifyImporter
     
-    def import
-        p "Inside import" 
+    def import        
         file = YAML.load_file('artists.yml')['artists']        
         file.each do |name|
             set_data_by_artist name    
         end
-
-
     end
 
     private
 
     def set_data_by_artist name
-        p "working with #{name}"
+
         sleep(0.5)  # to avoid toomanyrequest error
+
         sp_artist = get_artist_from_api name.to_s  #First step: go for single artist        
         
         sp_artist_formated = map_artist_data(sp_artist)  #Parse the objects artist to artist local
@@ -22,7 +20,6 @@ class SeedsSpotifyImporter
         artist_local = save_artist(sp_artist_formated) #Save or update the artist        
 
         sp_albums_formated = map_and_save_album_data(artist_local, sp_artist)  # Parse and save the album data with its songs
-
 
     end
  
@@ -86,8 +83,7 @@ class SeedsSpotifyImporter
               explicit: song.explicit,
               spotify_id: song.id,
               album_id: album_local.id
-            }
-            p song.name
+            }            
             save_song(song_data)
           end
     end
@@ -95,8 +91,6 @@ class SeedsSpotifyImporter
     def save_song (song_data)
         Song.find_or_create_by(spotify_id: song_data[:spotify_id]).update!(song_data)
     end
-
-    ####### END OF song CONCERN
-    
+    ####### END OF song CONCERN    
 
 end
