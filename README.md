@@ -132,7 +132,8 @@ artist:  rails generate model artist name:string image:text popularity:integer s
 
 album: rails generate model album name:string image:text spotify_url:text total_tracks:integer spotify_id:string  
 song: rails generate model song name:string spotify_url:text preview_url:text duration_ms:integer explicit:boolean spotify_id:string
-genr:y rails generate model genre name:string 
+genre:y rails generate model genre name:string 
+genre_artist: rails generate model artists_genres name:string 
 
 Fields you need to fetch for artists:
 string - name
@@ -167,4 +168,11 @@ rake Run
 
 bundle exec rake artists
 
+
+TO RESET DATABASE
+heroku pg:reset ENV[database_url]
+
+
+to add columns
+rails generate migration add_album_to_songs album:references
 
