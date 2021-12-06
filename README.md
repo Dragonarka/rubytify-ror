@@ -2,7 +2,7 @@
 
 # Rubitify
 
-  
+EFFORT: THE TOTAL EFFORT IN TIME FOR THIS PROJECT WERE 2 DAYS
 
 the planning for this project can be found here: [Agile dashboard](https://trello.com/b/sBHnCLEI/rubytify)
 
