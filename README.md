@@ -192,4 +192,14 @@ The other artits are fine in the raketask
 
 Build serializers
 
-rails g serializer artist
+rails g serializer artist 
+rails g serializer album 
+rails g serializer song 
+
+
+ROUTES
+          Prefix Verb URI Pattern                                                                              Controller#Action
+  api_v1_artist_albums GET  /api/v1/artists/:artist_id/albums(.:format)                                              api/v1/albums#index
+  api_v1_artists GET  /api/v1/artists(.:format)                                                                api/v1/artists#index
+  api_v1_album_songs GET  /api/v1/albums/:album_id/songs(.:format)                                                 api/v1/songs#index        
+  api_v1 GET  /api/v1/genres/:genre_name/random_song(.:format)   
