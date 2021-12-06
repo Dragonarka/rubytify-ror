@@ -1,205 +1,310 @@
+  
 
 # Rubitify
 
+  
+
 the planning for this project can be found here: [Agile dashboard](https://trello.com/b/sBHnCLEI/rubytify)
 
-You'll need to follow some instructions to get this project running:
+  
+
+You'll need to follow some instructions to get this project running:  
+
+First of all this project is running in a cluster on this direction:
+
+https://rubitify-ror.herokuapp.com
+
+so you can launch all the services requested the services like this:  
+
+https://rubitify-ror.herokuapp.com/api/v1/artists
+
+  
+
+https://rubitify-ror.herokuapp.com/api/v1/albums/1/songs
+
+  
+
+https://rubitify-ror.herokuapp.com//api/v1/artists/1/albums
+
+  
+
+https://rubitify-ror.herokuapp.com/api/v1/genres/metal/random_song
+
+  
 
 ## 1: Requirements
 
+  
+
 You must have [Docker](https://docs.docker.com/) and
+
 [Docker Compose](https://docs.docker.com/compose/) on your machine.
 
 You can install these with:
-  * [Docker for Mac](https://docs.docker.com/docker-for-mac/) on macOS
-  * [Docker for Windows](https://docs.docker.com/docker-for-windows) on Windows
+
+*  [Docker for Mac](https://docs.docker.com/docker-for-mac/) on macOS
+
+*  [Docker for Windows](https://docs.docker.com/docker-for-windows) on Windows
+
+  
 
 ## 2: Clone & Run the project
+ 
 
 You should clone the project into a conveniently-named directory, as this repo's name is big enough
-to make typing docker/compose commands tiresome, should the need arise:
 
+to make typing docker/compose commands tiresome, should the need arise:
 ```
 git clone https://github.com/Dragonarka/rubytify-ror.git rubitify\
-  && cd rubitify\
-  && docker-compose up -d app \
-  && docker-compose logs -f
+
+&& cd rubitify\
+
+&& docker-compose up -d app \
+
+&& docker-compose logs -f
+
 ```
+
 
 Watch it as it starts all the containers, and how the app database is initialized upon the first run
-before starting the rails web server.
 
-if there is no problems, you'll have this output:
-```
-$ docker-compose up -d
-
-[+] Running 2/2
- - Container rubytify-ror-db-1   Created                                                                   0.0s 
- - Container rubytify-ror-web-1  Created                                                                   2.7s
-```
-## 3: Initialize the app environment in an initial run:
-
+before starting the rails web server You are going to need some enviroment variables:
 Originally there was some setup to be made prior to running the app. Fortunately a lot of changes
-happened since then, and although the dotenv file is recommended, it is not required for the project
-to run immediately after cloning.
 
-If you need to, however, you can copy the contents of the example dotenv file into a file
-called `.env`:
+happened since then, and although the .env file is mandatory
+
+
+this is the variables that we need to set up
 
 ```
-cp example.env .env
+
+DATABASE_NAME=d5v...
+DATABASE_USER=ygp...
+DATABASE_PASSWORD=f16c...
+DATABASE_HOST=ec2-...
+DATABASE_URL=postgres://ygp...:f16c1f8...@ec2....compu...amazonaws.com:54.../d5v3...
+RAILS_ENV=deve...
+SPOTIFY_URL=1
+SPOTIFY_CLIENT_ID=c83a21...
+SPOTIFY_CLIENT_SECRET=d5e10...
+
 ```
-this is the variables that we need in this example
-```
-DATABASE_NAME=
-DATABASE_USER=
-DATABASE_PASSWORD=
-DATABASE_HOST=
-```
+
 Docker Compose now reads the `/.env` file by default, if it exists. You can still add other dotenv
+
 files and reference them in the `docker-compose.yml` file, but that would require an additional step
+
 than the coveted 'clone and run' project setup.
 
+if there is no problems, you'll have this output when you ran:
+```
+
+$ docker-compose up -d
+
+  
+
+[+] Running 2/2
+
+- Container rubytify-ror-db-1 Created 0.0s
+
+- Container rubytify-ror-web-1 Created 2.7s
+
+```
 ## 4: Bring online the project's containers
 
-```
-docker-compose up -d
-```
 
-Only for development purposes: 
-Login into the app container
+Here there are some recomendations and tips to work arroundthis ptoject wich means that is only for development purposes:
+
+To Login into the app container
+```
 docker-compose exec app sh
+```
+  
 
 To run rspec in container:
+```
 docker-compose run -e "RAILS_ENV=test" app bundle exec rspec spec/link/to/file.rb
-
-
-## 5: Apply the database migrations
 ```
-heroku container:push web
-heroku container:release web
-Migrate the database on Heroku. This is required if we’ve pushed up a migration file.
-heroku run rake db:migrate
+ To run the image with database from local to remote:
 ```
+docker-compose up
+```
+ But you are going to need more env variables in this case, please make sure you enable the remote database:
+```
+export DATABASE_CLEANER_ALLOW_PRODUCTION=true
 
-Then run again:
-```
-docker-compose up -d
+export DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
 ```
 
 That's it! Check the running app web interface: [http://localhost:3000](http://localhost:3000)
 
-You can also run the project without docker
+  
+
+## 5: Apply the database migrations
+```
+rake db:migrate
+```
+To deploy in heroku container you can
+```
+heroku container:push web
+
+heroku container:release web
+```
+Migrate the database on Heroku. This is required if we’ve pushed up a migration file.
+```
+heroku run rake db:migrate
+```
+
+
+You can also run the project without docker  
 
 make sure you have this env variable
+
 export DATABASE_URL=postgres://yg.......
- then just
-  rails server -e development -p 4000
 
-HEROKU
+then just
+
+rails server -e development -p 4000
+
+  
 
 
-heroku container:push web
-heroku container:release web
+# TEST
 
-TEST
+  
 
 bundle exec rspec
 
-MIGRATIONS
-rails db:migrate
 
-# License
+
+# License  
 
 This is free software, and may be redistributed under the terms specified in the MIT License
+  
 
-
-# ERRORS
-
-1. standard_init_linux.go:228: exec user process caused: no such file or directory
-In entrypoint docker ->docker-entrypoint.sh
-
-Use notepad++, go to edit -> EOL conversion -> change from CRLF to LF.
-
-update: For VScode users: you can change CRLF to LF by clicking on CRLF present on lower right side in the status bar
 
 # Models
 
-rails generate model
-rails generate controller artists
+Here we have how the models were generated:  
 
-artist:  rails generate model artist name:string image:text popularity:integer spotify_url:text spotify_id:string
+1. rails generate model XXXX
 
-album: rails generate model album name:string image:text spotify_url:text total_tracks:integer spotify_id:string  
+and also how the controllers were generated: 
+
+2. rails generate controller XXXX
+
+  
+The initial model looks like this, you can verify it with the first migration, then we added indexes and foreign keys:
+```
+artist: rails generate model artist name:string image:text popularity:integer spotify_url:text spotify_id:string
+```
+  
+```
+album: rails generate model album name:string image:text spotify_url:text total_tracks:integer spotify_id:string
+```
+```
 song: rails generate model song name:string spotify_url:text preview_url:text duration_ms:integer explicit:boolean spotify_id:string
-genre:y rails generate model genre name:string 
-genre_artist: rails generate model artists_genres name:string 
+```
+```
+genre:y rails generate model genre name:string
+```
+```
+genre_artist: rails generate model artists_genres name:string
+```
 
-Fields you need to fetch for artists:
+  
+
+As Requeste we Build some serializars in order to match the output structure of the endpoint. Here we have the logic we have followed.
+
+1. Artists
+
 string - name
-text  - image(Any image of the artist)
-fk  - genres(You must record all of them)
-int  - popularity
-text  - spotify_url
-string  - spotify_id
+text - image(Any image of the artist)
+json - genres
+int - popularity
+text - spotify_url
+string - spotify_id
 
-Fields you need to fetch for albums:
-s  - name
-t  - image(Any image of the album)
+  
+2. Fields you need to fetch for albums:
+
+s - name
+t - image(Any image of the album)
 t - spotify_url
 i - total_tracks
-s  - spotify_id
+s - spotify_id
+  
 
-Fields you need to fetch for songs:
-s  - name
-t  - spotify_url
-t  - preview_url(30 second audio)
-i  - duration_ms
-b  - explicit
-s  - spotify_id
+3. Fields you need to fetch for songs:
 
+s - name
+t - spotify_url
+t - preview_url(30 second audio)
+i - duration_ms
+b - explicit
+s - spotify_id
 
-to run rspec test locally:
-export DATABASE_CLEANER_ALLOW_PRODUCTION=true
-export DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL=true
+  
+# TO RESET DATABASE
 
+heroku pg:reset ENV[database_url] 
+  
 
-rake Run
+# to add columns
 
-bundle exec rake artists DEPRECATED
-nOW 
-rake artists_import:artists 
+rails generate migration add_album_to_songs album:references  
 
+rails g migration change_data_type_for_genre_to_json :artist, :genre, :json  
+  
+  
 
+# To Build serializers
+  
 
-TO RESET DATABASE
-heroku pg:reset ENV[database_url]
+rails g serializer artist
 
+rails g serializer album
 
-to add columns
-rails generate migration add_album_to_songs album:references
+rails g serializer song
 
-rails g migration change_data_type_for_genre_to_json :artist, :genre, :json
+   
 
+# Rake ROUTES
 
-Rescue request with retry https://stackify.com/rescue-exceptions-ruby/
+Prefix Verb URI Pattern Controller#Action
 
-WE HAVE SKYPPED 311 DUE TO ERRORS with the album "album Voyager (Instrumentals)"
+api_v1_artist_albums GET /api/v1/artists/:artist_id/albums(.:format) api/v1/albums#index
+
+api_v1_artists GET /api/v1/artists(.:format) api/v1/artists#index
+
+api_v1_album_songs GET /api/v1/albums/:album_id/songs(.:format) api/v1/songs#index
+
+api_v
+
+# TODO
+1 .  WE HAVE SKYPPED 311 DUE TO ERRORS with the album "album Voyager (Instrumentals)"
+
 rake aborted!
+
 NoMethodError: undefined method `[]' for nil:NilClass
-The other artits are fine in the raketask
 
+SOLUTION: he can implement a retry strategy, or just debug the app and watch what is going on with that album.  Rescue request with retry https://stackify.com/rescue-exceptions-ruby/
 
-Build serializers
+  # ERRORS
 
-rails g serializer artist 
-rails g serializer album 
-rails g serializer song 
+  We had this error so if you have the same, you can fix it just with the change of CRLF to LF in your bash files.
 
+1. standard_init_linux.go:228: exec user process caused: no such file or directory
 
-ROUTES
-          Prefix Verb URI Pattern                                                                              Controller#Action
-  api_v1_artist_albums GET  /api/v1/artists/:artist_id/albums(.:format)                                              api/v1/albums#index
-  api_v1_artists GET  /api/v1/artists(.:format)                                                                api/v1/artists#index
-  api_v1_album_songs GET  /api/v1/albums/:album_id/songs(.:format)                                                 api/v1/songs#index        
-  api_v1 GET  /api/v1/genres/:genre_name/random_song(.:format)   
+In entrypoint docker ->docker-entrypoint.sh
+
+  
+
+Use notepad++, go to edit -> EOL conversion -> change from CRLF to LF.
+
+  
+
+update: For VScode users: you can change CRLF to LF by clicking on CRLF present on lower right side in the status bar
+
+  
+1 GET /api/v1/genres/:genre_name/random_song(.:format)
