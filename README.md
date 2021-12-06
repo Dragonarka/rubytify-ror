@@ -188,3 +188,8 @@ WE HAVE SKYPPED 311 DUE TO ERRORS with the album "album Voyager (Instrumentals)"
 rake aborted!
 NoMethodError: undefined method `[]' for nil:NilClass
 The other artits are fine in the raketask
+
+
+Build serializers
+
+rails g serializer artist
