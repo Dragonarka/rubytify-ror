@@ -3,30 +3,29 @@ class SeedsSpotifyImporter
     def import        
         file = YAML.load_file('artists.yml')['artists']        
         file.each do |name|
-            set_data_by_artist name    
+            next if name.nil?
+            set_data_by_artist(name)
         end
     end
 
     private
 
     def set_data_by_artist name
-
-        sleep(0.5)  # to avoid toomanyrequest error
-
-        sp_artist = get_artist_from_api name.to_s  #First step: go for single artist        
+        p "*****working with #{name}"        
         
+        sp_artist = get_artist_from_api name.to_s  #First step: go for single artist        
+
         sp_artist_formated = map_artist_data(sp_artist)  #Parse the objects artist to artist local
 
         artist_local = save_artist(sp_artist_formated) #Save or update the artist        
-
+        
         sp_albums_formated = map_and_save_album_data(artist_local, sp_artist)  # Parse and save the album data with its songs
 
     end
  
     ##### BEGINNING OF ARTIST CONCERN
     def get_artist_from_api name
-        RSpotify::Artist.search(name).first 
-        #p "found #{name}"
+        RSpotify::Artist.search(name).first         
       rescue
         return {mssg: "#{name} not found"}
     end
@@ -50,10 +49,11 @@ class SeedsSpotifyImporter
 
    ###### BEGINNING OF ALBUM CONCERN
     def map_and_save_album_data (local_artist, sp_artist)
+        return unless local_artist&.persisted?        
         sp_artist.albums.each do |album|
-            
+            next if album.nil?            
             album_data = {
-              name: album.name,
+              name: album.name.to_s,
               image: album.images.first['url'],
               spotify_url: album.external_urls['spotify'],
               total_tracks: album.total_tracks,
@@ -75,6 +75,7 @@ class SeedsSpotifyImporter
     ###### BEGINNING OF song CONCERN
     def map_and_save_albums_songs(album_local, sp_album)
         sp_album.tracks.each do |song|
+            next if song.nil?                    
             song_data = {
               name: song.name,
               spotify_url: song.external_urls['spotify'],

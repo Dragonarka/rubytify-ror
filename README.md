@@ -184,3 +184,7 @@ rails g migration change_data_type_for_genre_to_json :artist, :genre, :json
 
 Rescue request with retry https://stackify.com/rescue-exceptions-ruby/
 
+WE HAVE SKYPPED 311 DUE TO ERRORS with the album "album Voyager (Instrumentals)"
+rake aborted!
+NoMethodError: undefined method `[]' for nil:NilClass
+The other artits are fine in the raketask
