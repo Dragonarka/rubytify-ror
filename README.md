@@ -217,38 +217,38 @@ genre_artist: rails generate model artists_genres name:string
 As Requeste we Build some serializars in order to match the output structure of the endpoint. Here we have the logic we have followed.
 
 1. Artists
-
+```
 string - name
 text - image(Any image of the artist)
 json - genres
 int - popularity
 text - spotify_url
 string - spotify_id
-
+```
   
 2. Fields you need to fetch for albums:
-
+```
 s - name
 t - image(Any image of the album)
 t - spotify_url
 i - total_tracks
 s - spotify_id
-  
+  ```
 
 3. Fields you need to fetch for songs:
-
+```
 s - name
 t - spotify_url
 t - preview_url(30 second audio)
 i - duration_ms
 b - explicit
 s - spotify_id
-
+```
   
 # TO RESET DATABASE
-
+```
 heroku pg:reset ENV[database_url] 
-  
+  ```
 
 # to add columns
 
@@ -260,51 +260,55 @@ rails g migration change_data_type_for_genre_to_json :artist, :genre, :json
 
 # To Build serializers
   
-
+```
 rails g serializer artist
-
+```
+```
 rails g serializer album
-
+```
+```
 rails g serializer song
-
+```
    
 
 # Rake ROUTES
-
+```
 Prefix Verb URI Pattern Controller#Action
 
-api_v1_artist_albums GET /api/v1/artists/:artist_id/albums(.:format) api/v1/albums#index
+- api_v1_artist_albums GET /api/v1/artists/:artist_id/albums(.:format) api/v1/albums#index
 
-api_v1_artists GET /api/v1/artists(.:format) api/v1/artists#index
+- api_v1_artists GET /api/v1/artists(.:format) api/v1/artists#index
 
-api_v1_album_songs GET /api/v1/albums/:album_id/songs(.:format) api/v1/songs#index
+- api_v1_album_songs GET /api/v1/albums/:album_id/songs(.:format) api/v1/songs#index
 
-api_v
+- api_v1 GET /api/v1/genres/:genre_name/random_song(.:format)
+```
 
 # TODO
-1 .  WE HAVE SKYPPED 311 DUE TO ERRORS with the album "album Voyager (Instrumentals)"
-
+1.  WE HAVE SKYPPED 311 DUE TO ERRORS with the album "album Voyager (Instrumentals)"
+```
 rake aborted!
 
 NoMethodError: undefined method `[]' for nil:NilClass
-
+```
 SOLUTION: he can implement a retry strategy, or just debug the app and watch what is going on with that album.  Rescue request with retry https://stackify.com/rescue-exceptions-ruby/
 
-  # ERRORS
+2. WE HAVE TO ADD SPECIFIC TEST CASES TO THE RSPEC, ACTUALLY RSPEC HAS THE COMMON CONFIGURATION
 
-  We had this error so if you have the same, you can fix it just with the change of CRLF to LF in your bash files.
+3. THE RANDOM SERVICE WORKS BUT IS NOT TOTALLY RANDOM EVERY TIME YOU ASK FOR IT
+ 
+   # ISSUES
 
-1. standard_init_linux.go:228: exec user process caused: no such file or directory
+
+```
+standard_init_linux.go:228: exec user process caused: no such file or directory
 
 In entrypoint docker ->docker-entrypoint.sh
+```
+you can fix it just with the change of CRLF to LF in your bash files.
+
+- Use notepad++, go to edit -> EOL conversion -> change from CRLF to LF.  
+
+- update: For VScode users: you can change CRLF to LF by clicking on CRLF present on lower right side in the status bar
 
   
-
-Use notepad++, go to edit -> EOL conversion -> change from CRLF to LF.
-
-  
-
-update: For VScode users: you can change CRLF to LF by clicking on CRLF present on lower right side in the status bar
-
-  
-1 GET /api/v1/genres/:genre_name/random_song(.:format)
